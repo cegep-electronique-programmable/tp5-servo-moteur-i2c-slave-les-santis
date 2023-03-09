@@ -12,27 +12,30 @@ I2CSlave slave(I2C_SDA, I2C_SCL);
 
 ///////////////////////////////////////////
 // Créer un objet debug_led à partir de la classe DigitalOut pour vous aider dans le debuggage
+DigitalOut debug_led(LED1);
 ///////////////////////////////////////////
 
 
 ///////////////////////////////////////////
 // Créer un objet moteur à partir de la classe PwmOut
+//PwmOut moteur(D6);
 ///////////////////////////////////////////
 
 
 ///////////////////////////////////////////
 // Créer une variable pour la machine à état qui gére le moteur (OFF ou Activé)
+int etat_moteur;
 ///////////////////////////////////////////
 
 
 int main() {
+    
   char read_buffer[10];
   char write_buffer[10];
 
   slave.address(ADDRESSE_I2C_PAR_DEFAUT << 1);
 
   while (1) {
-
         // Attendre une requête du master
         int i = slave.receive();
 
@@ -43,12 +46,13 @@ int main() {
             case I2CSlave::ReadAddressed:
                 ///////////////////////////////////////////
                 // Retourner l'état du moteur (sa position ou OFF sous forme d'une chaine de caractères)
+                
                 ///////////////////////////////////////////
 
                 slave.write(write_buffer, strlen(write_buffer) + 1); // Includes null char
                 break;
 
-            // Si le master envoie une requête de lecture qui nous est adressée
+            // Si le master envoie une requête d'écriture qui nous est adressée
             case I2CSlave::WriteAddressed:
                 slave.read(read_buffer, 10);
                 printf("Read A: %s\n", read_buffer);
