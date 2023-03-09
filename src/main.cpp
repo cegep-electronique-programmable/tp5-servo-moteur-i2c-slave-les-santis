@@ -1,5 +1,4 @@
 #include <mbed.h>
-
 #define ADDRESSE_I2C_PAR_DEFAUT 0x23
 
 #if !DEVICE_I2CSLAVE
@@ -18,7 +17,7 @@ DigitalOut debug_led(LED1);
 
 ///////////////////////////////////////////
 // Créer un objet moteur à partir de la classe PwmOut
-//PwmOut moteur(D6);
+PwmOut moteur(PC_6);
 ///////////////////////////////////////////
 
 
@@ -46,7 +45,7 @@ int main() {
             case I2CSlave::ReadAddressed:
                 ///////////////////////////////////////////
                 // Retourner l'état du moteur (sa position ou OFF sous forme d'une chaine de caractères)
-                
+                printf("Read A: %s\n", read_buffer);
                 ///////////////////////////////////////////
 
                 slave.write(write_buffer, strlen(write_buffer) + 1); // Includes null char
